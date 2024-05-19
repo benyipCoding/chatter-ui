@@ -3,7 +3,10 @@ import React, { PropsWithChildren, useState } from "react";
 
 interface AuthProps {
   submitLabel: string;
-  onSubmit: (credentials: { email: string; password: string }) => Promise<void>;
+  onSubmit: (credentials: {
+    email: string;
+    password: string;
+  }) => Promise<unknown>;
 }
 
 const Auth: React.FC<PropsWithChildren<AuthProps>> = ({
