@@ -1,9 +1,12 @@
-import { Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 
-import React from "react";
+interface BrandingProps {
+  pages: string[];
+  handleCloseNavMenu: () => void;
+}
 
-const Branding = () => {
+const Branding: React.FC<BrandingProps> = ({ pages, handleCloseNavMenu }) => {
   return (
     <>
       <ForumIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -24,6 +27,17 @@ const Branding = () => {
       >
         CHATTER
       </Typography>
+      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        {pages.map((page) => (
+          <Button
+            key={page}
+            onClick={handleCloseNavMenu}
+            sx={{ my: 2, color: "white", display: "block" }}
+          >
+            {page}
+          </Button>
+        ))}
+      </Box>
     </>
   );
 };
