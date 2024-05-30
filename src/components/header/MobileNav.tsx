@@ -4,11 +4,14 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  SxProps,
+  Theme,
   Tooltip,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ForumIcon from "@mui/icons-material/Forum";
+import router from "../Routes";
 
 interface MobileNavProps {
   pages: string[];
@@ -19,6 +22,7 @@ interface MobileNavProps {
   anchorElUser: HTMLElement | null;
   handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
   handleCloseUserMenu: () => void;
+  commonSx: SxProps<Theme>;
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({
@@ -30,7 +34,12 @@ const MobileNav: React.FC<MobileNavProps> = ({
   anchorElUser,
   handleOpenUserMenu,
   handleCloseUserMenu,
+  commonSx,
 }) => {
+  const onClickTypography = () => {
+    router.navigate("/");
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -74,16 +83,11 @@ const MobileNav: React.FC<MobileNavProps> = ({
         variant="h5"
         noWrap
         component="a"
-        href="#app-bar-with-responsive-menu"
+        onClick={onClickTypography}
         sx={{
-          mr: 2,
           display: { xs: "flex", md: "none" },
           flexGrow: 1,
-          fontFamily: "monospace",
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
+          ...commonSx,
         }}
       >
         CHATTER

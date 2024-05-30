@@ -4,11 +4,22 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import Branding from "./Branding";
 import MobileNav from "./MobileNav";
+import { Theme } from "@emotion/react";
+import { SxProps } from "@mui/material";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const commonSx: SxProps<Theme> = {
+  mr: 2,
+  fontFamily: "monospace",
+  fontWeight: 700,
+  letterSpacing: ".3rem",
+  color: "inherit",
+  textDecoration: "none",
+  cursor: "pointer",
+};
 
-const Header = () => {
+const Header: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -36,7 +47,11 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* PC device */}
-          <Branding pages={pages} handleCloseNavMenu={handleCloseNavMenu} />
+          <Branding
+            pages={pages}
+            handleCloseNavMenu={handleCloseNavMenu}
+            commonSx={commonSx}
+          />
 
           {/* Mobile device */}
           <MobileNav
@@ -48,6 +63,7 @@ const Header = () => {
             anchorElUser={anchorElUser}
             handleOpenUserMenu={handleOpenUserMenu}
             handleCloseUserMenu={handleCloseUserMenu}
+            commonSx={commonSx}
           />
         </Toolbar>
       </Container>

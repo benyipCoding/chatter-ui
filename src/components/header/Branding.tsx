@@ -1,12 +1,22 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, SxProps, Theme, Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
+import router from "../Routes";
 
 interface BrandingProps {
   pages: string[];
   handleCloseNavMenu: () => void;
+  commonSx: SxProps<Theme>;
 }
 
-const Branding: React.FC<BrandingProps> = ({ pages, handleCloseNavMenu }) => {
+const Branding: React.FC<BrandingProps> = ({
+  pages,
+  handleCloseNavMenu,
+  commonSx,
+}) => {
+  const onClickTypography = () => {
+    router.navigate("/");
+  };
+
   return (
     <>
       <ForumIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -14,15 +24,10 @@ const Branding: React.FC<BrandingProps> = ({ pages, handleCloseNavMenu }) => {
         variant="h6"
         noWrap
         component="a"
-        href="#app-bar-with-responsive-menu"
+        onClick={onClickTypography}
         sx={{
-          mr: 2,
+          ...commonSx,
           display: { xs: "none", md: "flex" },
-          fontFamily: "monospace",
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
         }}
       >
         CHATTER
