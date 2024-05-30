@@ -1,10 +1,17 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import { useGetMe } from "../../hooks/useGetMe";
 import { excludedRoutes } from "../../constants/excluded-routes";
+import { authenticatedVar } from "../../constants/authenticated";
 
 const Guard: React.FC<PropsWithChildren> = ({ children }) => {
   const { data: user } = useGetMe();
-  console.log(user);
+
+  useEffect(() => {
+    if (user) {
+      authenticatedVar(true);
+    }
+  }, [user]);
+
   const isWhiteList = excludedRoutes.includes(window.location.pathname);
 
   if (isWhiteList) {

@@ -6,9 +6,17 @@ import Branding from "./Branding";
 import MobileNav from "./MobileNav";
 import { Theme } from "@emotion/react";
 import { SxProps } from "@mui/material";
+import { useLogout } from "../../hooks/useLogout";
+import { onLogout } from "../../utils/logout";
+import { PageItem } from "../../interfaces/page.interface";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages: PageItem[] = [
+  {
+    title: "Home",
+    path: "/",
+  },
+];
+const settings = ["Logout"];
 const commonSx: SxProps<Theme> = {
   mr: 2,
   fontFamily: "monospace",
@@ -26,6 +34,7 @@ const Header: React.FC = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const { logout } = useLogout();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -38,7 +47,12 @@ const Header: React.FC = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = async (setting: string) => {
+    if (setting === "Logout") {
+      await logout();
+      onLogout();
+    }
+
     setAnchorElUser(null);
   };
 

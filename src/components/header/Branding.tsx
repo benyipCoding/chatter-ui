@@ -1,9 +1,10 @@
 import { Box, Button, SxProps, Theme, Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 import router from "../Routes";
+import { PageItem } from "../../interfaces/page.interface";
 
 interface BrandingProps {
-  pages: string[];
+  pages: PageItem[];
   handleCloseNavMenu: () => void;
   commonSx: SxProps<Theme>;
 }
@@ -35,11 +36,11 @@ const Branding: React.FC<BrandingProps> = ({
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
         {pages.map((page) => (
           <Button
-            key={page}
+            key={page.path}
             onClick={handleCloseNavMenu}
             sx={{ my: 2, color: "white", display: "block" }}
           >
-            {page}
+            {page.title}
           </Button>
         ))}
       </Box>

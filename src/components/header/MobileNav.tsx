@@ -12,16 +12,19 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ForumIcon from "@mui/icons-material/Forum";
 import router from "../Routes";
+import { useReactiveVar } from "@apollo/client";
+import { authenticatedVar } from "../../constants/authenticated";
+import { PageItem } from "../../interfaces/page.interface";
 
 interface MobileNavProps {
-  pages: string[];
+  pages: PageItem[];
   handleOpenNavMenu: (event: React.MouseEvent<HTMLElement>) => void;
   anchorElNav: HTMLElement | null;
   handleCloseNavMenu: () => void;
   settings: string[];
   anchorElUser: HTMLElement | null;
   handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
-  handleCloseUserMenu: () => void;
+  handleCloseUserMenu: (setting: string) => void;
   commonSx: SxProps<Theme>;
 }
 
@@ -39,6 +42,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
   const onClickTypography = () => {
     router.navigate("/");
   };
+  const authenticated = useReactiveVar(authenticatedVar);
 
   return (
     <>
@@ -72,8 +76,8 @@ const MobileNav: React.FC<MobileNavProps> = ({
           }}
         >
           {pages.map((page) => (
-            <MenuItem key={page} onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">{page}</Typography>
+            <MenuItem key={page.path} onClick={handleCloseNavMenu}>
+              <Typography textAlign="center">{page.title}</Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -93,11 +97,13 @@ const MobileNav: React.FC<MobileNavProps> = ({
         CHATTER
       </Typography>
       <Box sx={{ flexGrow: 0 }}>
-        <Tooltip title="Open settings">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-          </IconButton>
-        </Tooltip>
+        {authenticated && (
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" src="/logo192.png" />
+            </IconButton>
+          </Tooltip>
+        )}
         <Menu
           sx={{ mt: "45px" }}
           id="menu-appbar"
@@ -115,7 +121,10 @@ const MobileNav: React.FC<MobileNavProps> = ({
           onClose={handleCloseUserMenu}
         >
           {settings.map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+            <MenuItem
+              key={setting}
+              onClick={handleCloseUserMenu.bind(this, setting)}
+            >
               <Typography textAlign="center">{setting}</Typography>
             </MenuItem>
           ))}
