@@ -20,7 +20,7 @@ interface MobileNavProps {
   pages: PageItem[];
   handleOpenNavMenu: (event: React.MouseEvent<HTMLElement>) => void;
   anchorElNav: HTMLElement | null;
-  handleCloseNavMenu: () => void;
+  handleCloseNavMenu: (page: PageItem) => void;
   settings: string[];
   anchorElUser: HTMLElement | null;
   handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
@@ -39,10 +39,10 @@ const MobileNav: React.FC<MobileNavProps> = ({
   handleCloseUserMenu,
   commonSx,
 }) => {
-  const onClickTypography = () => {
-    router.navigate("/");
-  };
   const authenticated = useReactiveVar(authenticatedVar);
+  const onClickTypography = () => {
+    router.navigate(`${authenticated ? "/" : "/login"}`);
+  };
 
   return (
     <>
@@ -76,7 +76,10 @@ const MobileNav: React.FC<MobileNavProps> = ({
           }}
         >
           {pages.map((page) => (
-            <MenuItem key={page.path} onClick={handleCloseNavMenu}>
+            <MenuItem
+              key={page.path}
+              onClick={handleCloseNavMenu.bind(this, page)}
+            >
               <Typography textAlign="center">{page.title}</Typography>
             </MenuItem>
           ))}

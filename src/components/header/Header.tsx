@@ -9,13 +9,28 @@ import { SxProps } from "@mui/material";
 import { useLogout } from "../../hooks/useLogout";
 import { onLogout } from "../../utils/logout";
 import { PageItem } from "../../interfaces/page.interface";
+import router from "../Routes";
+import { useReactiveVar } from "@apollo/client";
+import { authenticatedVar } from "../../constants/authenticated";
 
-const pages: PageItem[] = [
+const authenticatedPages: PageItem[] = [
   {
     title: "Home",
     path: "/",
   },
 ];
+
+const unauthenticatedPages: PageItem[] = [
+  {
+    title: "Sign in",
+    path: "/login",
+  },
+  {
+    title: "Sign up",
+    path: "/signup",
+  },
+];
+
 const settings = ["Logout"];
 const commonSx: SxProps<Theme> = {
   mr: 2,
@@ -35,6 +50,7 @@ const Header: React.FC = () => {
     null
   );
   const { logout } = useLogout();
+  const authenticated = useReactiveVar(authenticatedVar);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -43,7 +59,8 @@ const Header: React.FC = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (page: PageItem) => {
+    router.navigate(page.path);
     setAnchorElNav(null);
   };
 
@@ -62,14 +79,14 @@ const Header: React.FC = () => {
         <Toolbar disableGutters>
           {/* PC device */}
           <Branding
-            pages={pages}
+            pages={authenticated ? authenticatedPages : unauthenticatedPages}
             handleCloseNavMenu={handleCloseNavMenu}
             commonSx={commonSx}
           />
 
           {/* Mobile device */}
           <MobileNav
-            pages={pages}
+            pages={authenticated ? authenticatedPages : unauthenticatedPages}
             handleOpenNavMenu={handleOpenNavMenu}
             anchorElNav={anchorElNav}
             handleCloseNavMenu={handleCloseNavMenu}

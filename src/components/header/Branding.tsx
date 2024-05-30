@@ -2,10 +2,12 @@ import { Box, Button, SxProps, Theme, Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 import router from "../Routes";
 import { PageItem } from "../../interfaces/page.interface";
+import { useReactiveVar } from "@apollo/client";
+import { authenticatedVar } from "../../constants/authenticated";
 
 interface BrandingProps {
   pages: PageItem[];
-  handleCloseNavMenu: () => void;
+  handleCloseNavMenu: (page: PageItem) => void;
   commonSx: SxProps<Theme>;
 }
 
@@ -14,8 +16,10 @@ const Branding: React.FC<BrandingProps> = ({
   handleCloseNavMenu,
   commonSx,
 }) => {
+  const authenticated = useReactiveVar(authenticatedVar);
+
   const onClickTypography = () => {
-    router.navigate("/");
+    router.navigate(`${authenticated ? "/" : "/login"}`);
   };
 
   return (
@@ -37,7 +41,7 @@ const Branding: React.FC<BrandingProps> = ({
         {pages.map((page) => (
           <Button
             key={page.path}
-            onClick={handleCloseNavMenu}
+            onClick={handleCloseNavMenu.bind(this, page)}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             {page.title}

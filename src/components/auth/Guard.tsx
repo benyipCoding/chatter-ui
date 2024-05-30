@@ -9,6 +9,8 @@ const Guard: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (user) {
       authenticatedVar(true);
+    } else {
+      authenticatedVar(false);
     }
   }, [user]);
 
